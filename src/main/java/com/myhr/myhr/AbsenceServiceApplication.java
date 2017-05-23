@@ -22,8 +22,9 @@ public class AbsenceServiceApplication {
 	@Bean
 	RouterFunction<?> router(final AbsenceHandler absenceHandler) {
 		//return route(GET("/absences/{organizationId}/{userId}"), absenceHandler::getAllForUser);
-		return nest(path("/absences/{organizationId}"),
-				route(GET("/{userId}"), absenceHandler::getAllForUser)
+		return nest(path("/absences"),
+				route(GET("/{organizationId}"), absenceHandler::getAllForOrganization)
+				.andRoute(GET("/{organizationId}/{userId}"), absenceHandler::getAllForUser)
 		);
 	}
 }

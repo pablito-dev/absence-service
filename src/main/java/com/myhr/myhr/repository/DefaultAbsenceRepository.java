@@ -11,5 +11,6 @@ import reactor.core.publisher.Mono;
  */
 @Repository
 public interface DefaultAbsenceRepository extends ReactiveMongoRepository<Absence, String> {
-    Flux<Absence> findByUserId(final String userId);
+    Flux<Absence> findByUserIdAndOrganizationId(final String userId, final String organizationId);
+    Flux<Absence> findByOrganizationId(final String organizationId);
 }

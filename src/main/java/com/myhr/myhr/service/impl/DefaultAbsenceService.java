@@ -5,6 +5,7 @@ import com.myhr.myhr.repository.DefaultAbsenceRepository;
 import com.myhr.myhr.service.AbsenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.server.ServerRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -22,7 +23,17 @@ public class DefaultAbsenceService implements AbsenceService {
     }
 
     @Override
-    public Flux<Absence> getAllForUserId(final String userId) {
-        return absenceRepository.findByUserId(userId);
+    public Flux<Absence> getAllForUserId(final ServerRequest request) {
+        final String userId = request.pathVariable("userId");
+        final String organizationId = request.pathVariable("organizationId");
+
+        return absenceRepository.findByUserIdAndOrganizationId(userId, organizationId);
+    }
+
+    @Override
+    public Flux<Absence> getAllForOrganization(ServerRequest request) {
+        final String organizationId = request.pathVariable("organizationId");
+
+        return absenceRepository.findByOrganizationId(organizationId);
     }
 }

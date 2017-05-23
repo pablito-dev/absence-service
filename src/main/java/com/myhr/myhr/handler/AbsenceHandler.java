@@ -25,6 +25,14 @@ public class AbsenceHandler {
     }
 
     public Mono<ServerResponse> getAllForUser(final ServerRequest request) {
-        return ok().contentType(MediaType.APPLICATION_JSON).body(absenceService.getAllForUserId(request.pathVariable("userId")), Absence.class);
+        return ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(absenceService.getAllForUserId(request), Absence.class);
+    }
+
+    public Mono<ServerResponse> getAllForOrganization(final ServerRequest request) {
+        return ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(absenceService.getAllForOrganization(request), Absence.class);
     }
 }
