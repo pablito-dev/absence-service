@@ -9,9 +9,12 @@ public class Absence {
     @Id
     private String id;
     private String userId;
+    private String organizationId;
 
     Absence(final Builder builder) {
         this.id = builder.id;
+        this.userId = builder.userId;
+        this.organizationId = builder.organizationId;
     }
 
     public Absence() {
@@ -25,9 +28,14 @@ public class Absence {
         return userId;
     }
 
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
     public static class Builder {
         private String id;
         private String userId;
+        private String organizationId;
 
         public Builder setId(final String id) {
             this.id = id;
@@ -36,6 +44,11 @@ public class Absence {
 
         public Builder setUserId(String userId) {
             this.userId = userId;
+            return this;
+        }
+
+        public Builder setOrganizationId(String organizationId) {
+            this.organizationId = organizationId;
             return this;
         }
 
