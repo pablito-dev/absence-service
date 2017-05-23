@@ -10,11 +10,13 @@ public class Absence {
     private String id;
     private String userId;
     private String organizationId;
+    private STATUS status;
 
     Absence(final Builder builder) {
         this.id = builder.id;
         this.userId = builder.userId;
         this.organizationId = builder.organizationId;
+        this.status = builder.status;
     }
 
     public Absence() {
@@ -32,10 +34,15 @@ public class Absence {
         return organizationId;
     }
 
+    public STATUS getStatus() {
+        return status;
+    }
+
     public static class Builder {
         private String id;
         private String userId;
         private String organizationId;
+        private STATUS status;
 
         public Builder setId(final String id) {
             this.id = id;
@@ -52,8 +59,17 @@ public class Absence {
             return this;
         }
 
+        public Builder setStatus(STATUS status) {
+            this.status = status;
+            return this;
+        }
+
         public Absence build() {
             return new Absence(this);
         }
+    }
+
+    public enum STATUS {
+        NEW, ACCEPTED, REJECTED
     }
 }

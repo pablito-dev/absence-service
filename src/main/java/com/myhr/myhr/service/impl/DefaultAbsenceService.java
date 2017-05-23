@@ -9,6 +9,9 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+import java.util.function.Predicate;
+
 /**
  * Created by pavel_000 on 23/05/2017.
  */
@@ -27,13 +30,22 @@ public class DefaultAbsenceService implements AbsenceService {
         final String userId = request.pathVariable("userId");
         final String organizationId = request.pathVariable("organizationId");
 
-        return absenceRepository.findByUserIdAndOrganizationId(userId, organizationId);
+        return absenceRepository.findByUserIdAndOrganizationId(userId, organizationId)
+                .filter(matchStatus(request));
     }
 
     @Override
     public Flux<Absence> getAllForOrganization(ServerRequest request) {
         final String organizationId = request.pathVariable("organizationId");
 
-        return absenceRepository.findByOrganizationId(organizationId);
+        return absenceRepository.findByOrganizationId(organizationId)
+                .filter(matchStatus(request));
+    }
+
+    private Predicate<Absence> matchStatus(ServerRequest request) {
+        final List<String> requestStatuses = request.queryParams("status");
+
+        return i -> requestStatuses.isEmpty() ||
+                requestStatuses.stream().anyMatch(t -> t.equals(i.getStatus().toString()));
     }
 }
